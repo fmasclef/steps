@@ -4,6 +4,8 @@ This shell script creates a series of visual SVG indicators you could use to sho
 
 # Usage
 
+This is pure shell and should run on most Linux or macOS. Invoke from command line to generate your very own indicators.
+
     ./mkdots.sh <steps>
 
 Let's say you need a 8 steps indicator, run `./mkdots.sh 8`. This will generate the following SVG files :
@@ -33,4 +35,8 @@ Some options can be tweaked to suit your mood. You should edit `.config` to over
     PADDING=5                        # outermost padding
     STROKE_WIDTH=1                   # speaks for itself
 
-Beware of the `OUTPUT_PNG` option. It relies on `convert`. This script checks for `convert` prior trying to use it. So don't expect PNGs if `convert` id not available to you.
+Beware of the `OUTPUT_PNG` option. It relies on `convert`. This script checks for `convert` prior trying to use it. So don't expect PNGs if `convert` is not available to you.
+
+# Dependencies
+
+Well, there's basically no dependency. Anyway, as stated above, `ImageMagick` is required for generating PNGs. You might install it using any package manager.
