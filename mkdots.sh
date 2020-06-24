@@ -27,7 +27,7 @@ if [ -f ".config" ]; then
   . .config
 fi
 
-# compure SVG dimensions
+# compute SVG dimensions
 
 let DOT_XY=(${CIRCLE_RADIUS}+${STROKE_WIDTH})*2+2
 let SVG_WIDTH=${DOT_XY}*$1+${PADDING}*2
@@ -42,7 +42,9 @@ do
   FILENAME="${step}_of_${1}.svg"
   echo "generating file ${FILENAME}"
   # SVG wrapper
-  echo "<svg width=\"${SVG_WIDTH}\" height=\"${SVG_HEIGTH}\" viewBox=\"0 0 ${SVG_WIDTH} ${SVG_HEIGTH}\" xmlns=\"http://www.w3.org/2000/svg\">" > ${FILENAME}
+  echo "<?xml version=\"1.0\" standalone=\"no\"?>" > ${FILENAME}
+  echo "<svg width=\"${SVG_WIDTH}\" height=\"${SVG_HEIGTH}\" viewBox=\"0 0 ${SVG_WIDTH} ${SVG_HEIGTH}\" xmlns=\"http://www.w3.org/2000/svg\">" >> ${FILENAME}
+  echo "<!-- github.com/fmasclef/steps -->" >> ${FILENAME} 
   echo "<rect width=\"${SVG_WIDTH}\" height=\"${SVG_HEIGTH}\" fill=\"${COLOR_BACKGROUND}\" />" >> ${FILENAME}
   echo "<g transform=\"translate(${PADDING} ${PADDING})\">" >>  ${FILENAME}
   # loop thru dots
