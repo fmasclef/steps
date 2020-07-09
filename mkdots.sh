@@ -55,11 +55,11 @@ do
     let CIRCLE_CY=${DOT_XY}/2
     CIRCLE_INNER=${COLOR_INNER_CURRENT}
     CIRCLE_OUTER=${COLOR_OUTER_CURRENT}
-    if [[ ${dot} < ${step} ]] ; then
+    if (( ${dot} < ${step} )) ; then
       CIRCLE_INNER=${COLOR_INNER_DONE}
       CIRCLE_OUTER=${COLOR_OUTER_DONE}
     fi
-    if [[ ${dot} > ${step} ]] ; then
+    if (( ${dot} > ${step} )) ; then
       CIRCLE_INNER=${COLOR_INNER_NEXT}
       CIRCLE_OUTER=${COLOR_OUTER_NEXT}
     fi
@@ -72,7 +72,7 @@ do
 done
 
 # convert to PNG if needed
-if [[ ${OUTPUT_PNG} == 1 ]]; then
+if (( ${OUTPUT_PNG} == 1 )); then
   echo "Creating PNGs"
   command -v convert >/dev/null 2>&1 || { echo >&2 "I require convert but it's not installed. Aborting."; exit 1; }
   for (( step=1; step<=$1; step++ ))
