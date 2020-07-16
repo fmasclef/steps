@@ -43,19 +43,24 @@ let CIRCLE_CY=${DOT_XY}/2
 
 echo "SVG: ${SVG_WIDTH}x${SVG_HEIGTH}, ANGLE: ${ANGLE}°"
 
+# prepare HTML file
+INDEX="index.html"
+echo "<!DOCTYPE html><html><head><title>Progress report</title></head><body>" > ${INDEX}
+
 # loop thru steps and generate SVG
 for level in INFO WARNING DANGER
 do
   COLOR_INNER="COLOR_INNER_${level}"
   COLOR_OUTER="COLOR_OUTER_${level}"
   PCENT=0
+  echo "<p>" >> ${INDEX}
   for (( step=0; step<=360; step+=${ANGLE} ))
   do
     FILENAME="progress_${level}_${PCENT}.svg"
     echo "generating file ${FILENAME}"
     # SVG wrapper
     echo "<?xml version=\"1.0\" standalone=\"no\"?>" > ${FILENAME}
-    echo "<svg width=\"${SVG_WIDTH}\" height=\"${SVG_HEIGTH}\" viewBox=\"0 0 ${SVG_WIDTH} ${SVG_HEIGTH}\" xmlns=\"http://www.w3.org/2000/svg\">" >> ${FILENAME}
+    echo "<svg version=\"1.1\" width=\"${SVG_WIDTH}\" height=\"${SVG_HEIGTH}\" viewBox=\"0 0 ${SVG_WIDTH} ${SVG_HEIGTH}\" xmlns=\"http://www.w3.org/2000/svg\">" >> ${FILENAME}
     echo "<!-- github.com/fmasclef/steps -->" >> ${FILENAME} 
     echo "<rect width=\"${SVG_WIDTH}\" height=\"${SVG_HEIGTH}\" fill=\"${COLOR_BACKGROUND}\" />" >> ${FILENAME}
     echo "<g transform=\"translate(${PADDING} ${PADDING})\">" >>  ${FILENAME}
@@ -85,9 +90,15 @@ do
     fi
     # close SVG tag
     echo "</svg>" >> ${FILENAME}
+    echo "<img src=\"${FILENAME}\" border=0 alt=\"${level} ${PCENT}\"/>" >> ${INDEX}
     let PCENT+=$1
   done
+  echo "</p>" >> ${INDEX}
 done
+
+# close HTML
+echo "<p align=\"center\"><a href=\"https://github.com/fmasclef/steps\" alt=\"Public GitHub\"><code>github.com/fmasclef/steps</code></a></p>" >> ${INDEX}
+echo "</body></html>" >> ${INDEX}
 
 # convert to PNG if needed
 if (( ${OUTPUT_PNG} == 1 )); then

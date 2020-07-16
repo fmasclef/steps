@@ -35,6 +35,11 @@ let SVG_HEIGTH=${DOT_XY}+${PADDING}*2
 
 echo "SVG: ${SVG_WIDTH}x${SVG_HEIGTH}"
 
+# prepare HTML file
+INDEX="index.html"
+echo "<!DOCTYPE html><html><head><title>Dotline</title></head><body>" > ${INDEX}
+echo "<p align=\"center\">" > ${INDEX}
+
 # loop thru steps and generate SVG
 
 for (( step=1; step<=$1; step++ ))
@@ -43,7 +48,7 @@ do
   echo "generating file ${FILENAME}"
   # SVG wrapper
   echo "<?xml version=\"1.0\" standalone=\"no\"?>" > ${FILENAME}
-  echo "<svg width=\"${SVG_WIDTH}\" height=\"${SVG_HEIGTH}\" viewBox=\"0 0 ${SVG_WIDTH} ${SVG_HEIGTH}\" xmlns=\"http://www.w3.org/2000/svg\">" >> ${FILENAME}
+  echo "<svg version=\"1.1\" width=\"${SVG_WIDTH}\" height=\"${SVG_HEIGTH}\" viewBox=\"0 0 ${SVG_WIDTH} ${SVG_HEIGTH}\" xmlns=\"http://www.w3.org/2000/svg\">" >> ${FILENAME}
   echo "<!-- github.com/fmasclef/steps -->" >> ${FILENAME} 
   echo "<rect width=\"${SVG_WIDTH}\" height=\"${SVG_HEIGTH}\" fill=\"${COLOR_BACKGROUND}\" />" >> ${FILENAME}
   echo "<g transform=\"translate(${PADDING} ${PADDING})\">" >>  ${FILENAME}
@@ -69,16 +74,22 @@ do
   # close SVG tag
   echo "</g>" >>  ${FILENAME}
   echo "</svg>" >> ${FILENAME}
+  echo "<img src=\"${FILENAME}\" border=0 alt=\"Step ${dot}\"/><br />" >> ${INDEX}
 done
+
+# close HTML
+echo "</p>" >> ${INDEX}
+echo "<p align=\"center\"><a href=\"https://github.com/fmasclef/steps\" alt=\"Public GitHub\"><code>github.com/fmasclef/steps</code></a></p>" >> ${INDEX}
+echo "</body></html>" >> ${INDEX}
 
 # convert to PNG if needed
 if (( ${OUTPUT_PNG} == 1 )); then
   echo "Creating PNGs"
   command -v convert >/dev/null 2>&1 || { echo >&2 "I require convert but it's not installed. Aborting."; exit 1; }
-  for (( step=1; step<=$1; step++ ))
+  for f in *.svg
   do
-    FILENAME="${step}_of_${1}"
-    $(convert ${FILENAME}.svg ${FILENAME}.png)
+    echo "Converting $f to  ${f%.*}.png"
+    $(convert ${f} ${f%.*}.png)
   done
 fi
 
