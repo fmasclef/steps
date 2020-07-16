@@ -22,9 +22,9 @@ if ! [[ $1 =~ ^[0-9]+$ ]] ; then
    echo "error: Not a number" >&2; exit 1
 fi
 
-if [ -f ".config" ]; then
+if [ -f ".config_dots" ]; then
   echo "Configuration file found, using it"
-  . .config
+  . .config_dots
 fi
 
 # compute SVG dimensions

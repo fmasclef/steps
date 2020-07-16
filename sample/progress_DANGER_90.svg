@@ -1,0 +1,10 @@
+<?xml version="1.0" standalone="no"?>
+<svg width="110" height="110" viewBox="0 0 110 110" xmlns="http://www.w3.org/2000/svg">
+<!-- github.com/fmasclef/steps -->
+<rect width="110" height="110" fill="#ffffff" />
+<g transform="translate(5 5)">
+<circle cx="50" cy="50" r="40" fill="#bb2124" />
+<path d="M 100 50 A 50 50 0 1 1 90.45085217387838818350 20.61074076457458451900" fill="none" stroke="#d6797b" stroke-width="5" />
+</g>
+<text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" style="font-family:Verdana; font-size:25; stroke:#ffffff; fill:#ffffff">90%</text>
+</svg>
